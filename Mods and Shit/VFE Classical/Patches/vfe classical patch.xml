@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+
+			<!-- more concrete interactions -->
+			<li Class="PatchOperationSequence" MayRequire="syrchalis.processor.framework">
+				<operations>
+					<!-- processor recipe -->
+					<li Class="PatchOperationAttributeRemove">
+						<xpath>/Defs/ProcessorFramework.ProcessDef[
+							defName="Ferny_Make_ConcreteProcessSlow"
+							or defName="Ferny_Make_ConcreteProcessFast"
+							]
+						</xpath>
+						<attribute>Abstract</attribute>
+					</li>
+
+					<!-- cement press -->
+					<li Class="PatchOperationSequence">
+						<operations>
+							<li Class="PatchOperationAdd">
+								<xpath>/Defs/ThingDef[defName="VFEC_ConcretePress"]</xpath>
+								<value>
+									<hasInteractionCell>True</hasInteractionCell>
+									<interactionCellOffset>(0,0,2)</interactionCellOffset>
+									<placeWorkers>
+										<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+									</placeWorkers>
+								</value>
+							</li>
+							<li Class="PatchOperationReplace">
+								<xpath>/Defs/ThingDef[defName="VFEC_ConcretePress"]/tickerType</xpath>
+								<value>
+									<tickerType>Rare</tickerType>
+								</value>
+							</li>
+							<li Class="PatchOperationReplace">
+								<xpath>/Defs/ThingDef[defName="VFEC_ConcretePress"]/thingClass</xpath>
+								<value>
+									<thingClass>Building_WorkTable</thingClass>
+								</value>
+							</li>
+							<li Class="PatchOperationAdd">
+								<xpath>/Defs/ThingDef[defName="VFEC_ConcretePress"]</xpath>
+								<value>
+									<drawerType>MapMeshAndRealTime</drawerType>
+								</value>
+							</li>
+							<li Class="PatchOperationReplace">
+								<xpath>/Defs/ThingDef[defName="VFEC_ConcretePress"]/comps/li[@Class="ItemProcessor.CompProperties_ItemProcessor"]</xpath>
+								<value>
+									<li Class="ProcessorFramework.CompProperties_Processor">
+										<capacity>200</capacity>
+										<processes>
+											<li>Ferny_Make_ConcreteProcessSlow</li>
+										</processes>
+									</li>
+									<li Class="CompProperties_Forbiddable" />
+								</value>
+							</li>
+						</operations>
+					</li>
+
+					<!-- windmill -->
+					<li Class="PatchOperationSequence" MayRequire="dankpyon.medieval.overhaul">
+						<operations>
+							<li Class="PatchOperationAdd">
+								<xpath>/Defs/ThingDef[defName="DankPyon_WindMill"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+								<value>
+									<li>Ferny_Make_ConcreteProcessFast</li>
+								</value>
+							</li>
+						</operations>
+					</li>
+
+					<!-- watermill -->
+					<li Class="PatchOperationSequence" MayRequire="dankpyon.medieval.overhaul">
+						<operations>
+							<li Class="PatchOperationAdd">
+								<xpath>/Defs/ThingDef[defName="DankPyon_WaterMill"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+								<value>
+									<li>Ferny_Make_ConcreteProcessFast</li>
+								</value>
+							</li>
+						</operations>
+					</li>
+
+				</operations>
+			</li>
+
+
+			<!-- more bronze interactions -->
+			<li Class="PatchOperationSequence">
+				<operations>
+
+					<!-- recipe update -->
+					<li Class="PatchOperationSequence">
+						<operations>
+							<li Class="PatchOperationAttributeAdd">
+								<xpath>/Defs/RecipeDef[defName="VFEC_Make_Bronze"]</xpath>
+								<attribute>Abstract</attribute>
+								<value>True</value>
+							</li>
+							<li Class="PatchOperationAttributeAdd">
+								<xpath>/Defs/RecipeDef[defName="VFEC_Make_Bronze"]</xpath>
+								<attribute>Name</attribute>
+								<value>Ferny_Make_BronzeBase</value>
+							</li>
+							<li Class="PatchOperationReplace">
+								<xpath>/Defs/RecipeDef[defName="VFEC_Make_Bronze"]/recipeUsers</xpath>
+								<value>
+									<recipeUsers>
+										<li>ElectricSmelter</li>
+										<li MayRequire="dankpyon.medieval.overhaul">DankPyon_Furnace</li>
+									</recipeUsers>
+								</value>
+							</li>
+							<li Class="PatchOperationAttributeRemove">
+								<xpath>/Defs/RecipeDef[
+									defName="Ferny_Make_BronzeFromChunk"
+									or defName="Ferny_Make_BronzeFromBlock"
+									]
+								</xpath>
+								<attribute>Abstract</attribute>
+							</li>
+						</operations>
+					</li>
+
+					<!-- processor recipe -->
+					<li Class="PatchOperationSequence" MayRequire="syrchalis.processor.framework">
+						<operations>
+							<li Class="PatchOperationAttributeRemove">
+								<xpath>
+									/Defs/ProcessorFramework.ProcessDef[
+									defName="Ferny_Make_BronzeFromChunkProcessKiln"
+									or defName="Ferny_Make_BronzeFromBlockProcessKiln"
+									or defName="Ferny_Make_BronzeFromChunkProcessSmelter"
+									or defName="Ferny_Make_BronzeFromBlockProcessSmelter"
+									or defName="Ferny_Make_BronzeFromChunkProcessIndustrial"
+									or defName="Ferny_Make_BronzeFromBlockProcessIndustrial"
+									]
+								</xpath>
+								<attribute>Abstract</attribute>
+							</li>
+
+							<!-- kiln -->
+							<li Class="PatchOperationSequence" MayRequire="dankpyon.medieval.overhaul">
+								<operations>
+									<li Class="PatchOperationReplace">
+										<xpath>/Defs/ThingDef[defName="DankPyon_Kiln"]/description</xpath>
+										<value>
+											<description>A stone kiln used to cook raw clay into bricks or stone into bronze.</description>
+										</value>
+									</li>
+									<li Class="PatchOperationAdd">
+										<xpath>/Defs/ThingDef[defName="DankPyon_Kiln"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+										<value>
+											<li>Ferny_Make_BronzeFromChunkProcessKiln</li>
+											<li>Ferny_Make_BronzeFromBlockProcessKiln</li>
+										</value>
+									</li>
+								</operations>
+							</li>
+
+							<!-- smelter -->
+							<li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+								<xpath>/Defs/ThingDef[defName="DankPyon_Smelter"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+								<value>
+									<li>Ferny_Make_BronzeFromChunkProcessSmelter</li>
+									<li>Ferny_Make_BronzeFromBlockProcessSmelter</li>
+								</value>
+							</li>
+
+							<!-- blast furnace -->
+							<li Class="PatchOperationAdd" MayRequire="dankpyon.medieval.overhaul">
+								<xpath>/Defs/ThingDef[defName="DankPyon_BlastFurnace"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+								<value>
+									<li>Ferny_Make_BronzeFromChunkProcessIndustrial</li>
+									<li>Ferny_Make_BronzeFromBlockProcessIndustrial</li>
+								</value>
+							</li>
+						</operations>
+					</li>
+				</operations>
+			</li>
+
+
+		</operations>
+	</Operation>
+</Patch>

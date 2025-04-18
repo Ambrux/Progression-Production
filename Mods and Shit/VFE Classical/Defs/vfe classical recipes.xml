@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+	<RecipeDef Abstract="True" ParentName="Ferny_Make_BronzeBase">
+		<defName>Ferny_Make_BronzeFromChunk</defName>
+		<description>Smelt bronze using stone chunks.</description>
+		<ingredients Inherit="False">
+			<li>
+				<filter>
+					<categories>
+						<li>StoneChunks</li>
+					</categories>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter Inherit="False">
+			<categories>
+				<li>StoneChunks</li>
+			</categories>
+		</fixedIngredientFilter>
+	</RecipeDef>
+
+	<RecipeDef Abstract="True" ParentName="Ferny_Make_BronzeBase">
+		<defName>Ferny_Make_BronzeFromBlock</defName>
+		<description>Smelt bronze using stone blocks.</description>
+		<ingredients Inherit="False">
+			<li>
+				<filter>
+					<categories>
+						<li>StoneBlocks</li>
+					</categories>
+				</filter>
+				<count>20</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter Inherit="False">
+			<categories>
+				<li>StoneBlocks</li>
+			</categories>
+		</fixedIngredientFilter>
+	</RecipeDef>
+</Defs>
